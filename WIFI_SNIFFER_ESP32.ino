@@ -13,7 +13,7 @@
 
 uint8_t level = 0, channel = 1;
 
-static wifi_country_t wifi_country = WIFI_COUNTRY_EU;
+static wifi_country_t wifi_country = {.cc="CN", .schan = 1, .nchan = 13}; //Most recent esp32 library struct
 
 typedef struct {
   unsigned frame_ctrl:16;
@@ -48,7 +48,7 @@ void wifi_sniffer_init(void)
   ESP_ERROR_CHECK( esp_event_loop_init(event_handler, NULL) );
   wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
   ESP_ERROR_CHECK( esp_wifi_init(&cfg) );
-  ESP_ERROR_CHECK( esp_wifi_set_country(wifi_country) ); /* set country for channel range [1, 13] */
+  ESP_ERROR_CHECK( esp_wifi_set_country(&wifi_country) ); /* set country for channel range [1, 13] */
   ESP_ERROR_CHECK( esp_wifi_set_storage(WIFI_STORAGE_RAM) );
   ESP_ERROR_CHECK( esp_wifi_set_mode(WIFI_MODE_NULL) );
   ESP_ERROR_CHECK( esp_wifi_start() );
